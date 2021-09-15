@@ -40,7 +40,7 @@ const useController = ({ data, width, height }) => {
 		[height, yMin, yMax]
 	);
 
-	const yTickFormat = (d) => d;
+	const yTickFormat = (d) => `$ ${d}`;
 	// `${parseFloat(d) > 0 ? "+" : ""}${d3.format(".2%")(d / 100)}`;
 
 	return {

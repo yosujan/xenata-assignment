@@ -9,6 +9,16 @@
 background-color: #fff;
 }
 
+.form-wrapper label {
+  display: inline-block;
+  font-weight:600;
+  font-size: 0.8em;
+}
+
+.form-wrapper label select{
+  display: block;
+}
+
 select.select-input {
 margin: 5px 20px 5px 0;
 padding: 16px 20px;
