@@ -7,11 +7,11 @@ test("renders the form", () => {
 	expect(label).toBeInTheDocument();
 });
 
-// test("submit button should be disabled when origin or destination is not selected", () => {
-// 	const { debug, getByText } = render(<Form />);
-// 	const submitBtn = getByText(/submit/i);
-// 	expect(submitBtn).toBeDisabled();
-// });
+test("submit button should be disabled when origin or destination is not selected", () => {
+	const { debug, getByText } = render(<Form />);
+	const submitBtn = getByText(/submit/i);
+	expect(submitBtn).toBeDisabled();
+});
 
 // test("submit button should be enabled after origin and destination are selected", () => {
 // 	const { getByLabelText, getByText, getByRole } = render(<Form />);

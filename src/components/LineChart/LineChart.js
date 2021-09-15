@@ -1,5 +1,5 @@
 import React from "react";
-import { Line, Axis, GridLine, Area } from "./_components";
+import { Line, Axis, GridLine } from "./_components";
 import useController from "./LineChart.controller";
 
 const LineChart = ({ data = [], dimensions = {} }) => {

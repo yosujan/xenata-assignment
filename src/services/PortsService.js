@@ -4,6 +4,7 @@ const get = () => {
 	return http.get("/ports");
 };
 
-export default {
+const PortsService = {
 	get,
 };
+export default PortsService;

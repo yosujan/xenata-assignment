@@ -4,7 +4,7 @@ import InputAutocomplete from "./InputAutocomplete";
 const Form = (props) => {
 	const { ports = [] } = props;
 
-	// options for dropdown
+	// options for dropdown list
 	const [options, setOptions] = useState([
 		ports.map((port) => port.name + " (" + port.code + ")"),
 	]);
@@ -47,7 +47,7 @@ const Form = (props) => {
 
 		var _portCodes = ports.map((port) => port.code);
 		setPortCodes(_portCodes);
-	}, [ports]);
+	}, [ports, props]);
 
 	// Check if the selected value is in the list of portcodes
 	const validate = (value) => {
@@ -55,9 +55,7 @@ const Form = (props) => {
 	};
 
 	const onSubmitButtonClick = (e) => {
-		console.log(originValue, destinationValue);
 		if (validate(originValue) && validate(destinationValue)) {
-			console.log("submit and fetch");
 			props.getRates(originValue, destinationValue);
 		}
 	};

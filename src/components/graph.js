@@ -74,6 +74,7 @@ const Graph = (props) => {
 		setLowData(_lowData);
 		setHighData(_highData);
 		setMeanData(_meanData);
+		// eslint-disable-next-line
 	}, [rates]);
 
 	return (

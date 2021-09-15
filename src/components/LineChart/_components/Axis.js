@@ -28,7 +28,7 @@ const Axis = ({
 			.attr("opacity", 0.5)
 			.attr("color", "#000")
 			.attr("font-size", "0.75rem");
-	}, [scale, ticks, tickFormat, disableAnimation]);
+	}, [scale, ticks, tickFormat, disableAnimation, type]);
 
 	return <g ref={ref} transform={transform} {...props} />;
 };

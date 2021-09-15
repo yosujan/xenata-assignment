@@ -56,7 +56,7 @@ const InputAutocomplete = (props) => {
 	// update value if option updates
 	useEffect(() => {
 		props.setValue(userInput);
-	}, [userInput]);
+	}, [userInput, props]);
 
 	return (
 		<div className="inputautocomplete-wrapper">

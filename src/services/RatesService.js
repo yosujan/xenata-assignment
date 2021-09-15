@@ -4,6 +4,7 @@ const get = (origin, destination) => {
 	return http.get("rates?origin=" + origin + "&destination=" + destination);
 };
 
-export default {
+const RatesService = {
 	get,
 };
+export default RatesService;
