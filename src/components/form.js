@@ -1,60 +1,101 @@
 import React, { useState, useEffect } from "react";
-import RatesService from "../services/RatesService";
+import InputAutocomplete from "./InputAutocomplete";
 
 const Form = (props) => {
 	const { ports = [] } = props;
-	const [originPort, setOriginPort] = useState(0);
-	const [destinationPort, setDestinationPort] = useState(0);
 
-	const onChangeOrigin = (e) => {
-		setOriginPort(e.target.value);
+	// options for dropdown
+	const [options, setOptions] = useState([
+		ports.map((port) => port.name + " (" + port.code + ")"),
+	]);
+
+	// port codes only
+	const [portCodes, setPortCodes] = useState([
+		ports.map((port) => port.code),
+	]);
+
+	const [originPort, setOriginPort] = useState();
+	const [destinationPort, setDestinationPort] = useState();
+
+	useEffect(() => {
+		if (originPort) {
+			const _origin = originPort.substr(originPort.indexOf("(") + 1, 5);
+			setOriginValue(_origin);
+		} else {
+			setOriginValue(false);
+		}
+	}, [originPort]);
+
+	useEffect(() => {
+		if (destinationPort) {
+			const _destination = destinationPort.substr(
+				destinationPort.indexOf("(") + 1,
+				5
+			);
+			setDestinationValue(_destination);
+		} else {
+			setDestinationValue(false);
+		}
+	}, [destinationPort]);
+
+	const [originValue, setOriginValue] = useState(false);
+	const [destinationValue, setDestinationValue] = useState(false);
+
+	useEffect(() => {
+		var _options = ports.map((port) => port.name + " (" + port.code + ")");
+		setOptions(_options);
+
+		var _portCodes = ports.map((port) => port.code);
+		setPortCodes(_portCodes);
+	}, [ports]);
+
+	// Check if the selected value is in the list of portcodes
+	const validate = (value) => {
+		return portCodes.includes(value);
 	};
 
-	const onChangeDestination = (e) => {
-		setDestinationPort(e.target.value);
-	};
-
-	const onClick = () => {
-		if (originPort && destinationPort) {
-			props.getRates(originPort, destinationPort);
+	const onSubmitButtonClick = (e) => {
+		console.log(originValue, destinationValue);
+		if (validate(originValue) && validate(destinationValue)) {
+			console.log("submit and fetch");
+			props.getRates(originValue, destinationValue);
 		}
 	};
 
 	return (
 		<div className="form-wrapper">
-			<label>
-				Origin:
-				<select className="select-input" onChange={onChangeOrigin}>
-					<option value={0}>Select Origin</option>
-					{ports.map((port) => (
-						<option value={port.code} key={"origin-" + port.code}>
-							{port.name} ({port.code})
-						</option>
-					))}
-				</select>
-			</label>
-			<label>
-				Destination:
-				<select className="select-input" onChange={onChangeDestination}>
-					<option value={0}>Select Destination</option>
-					{ports.map((port) => (
-						<option
-							value={port.code}
-							key={"destination-" + port.code}
-						>
-							{port.name} ({port.code})
-						</option>
-					))}
-				</select>
-			</label>
+			<div>
+				<label>
+					Origin:
+					<InputAutocomplete
+						options={[...options]}
+						required={true}
+						placeholder="Origin"
+						setValue={setOriginPort}
+						// valid={originValue}
+					/>
+				</label>
+				<label>
+					Destination:
+					<InputAutocomplete
+						options={[...options]}
+						required={true}
+						placeholder="Destination"
+						setValue={setDestinationPort}
+						// valid={destinationValue}
+					/>
+				</label>
 
-			<button
-				type="button"
-				onClick={onClick}
-				disabled={originPort == 0 || destinationPort == 0}
-			>
-				Submit
-			</button>
+				<button
+					type="button"
+					disabled={
+						!validate(originValue) || !validate(destinationValue)
+					}
+					onClick={onSubmitButtonClick}
+				>
+					Submit
+				</button>
+			</div>
 		</div>
 	);
 };

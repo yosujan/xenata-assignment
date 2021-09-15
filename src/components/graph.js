@@ -74,7 +74,6 @@ const Graph = (props) => {
 		setLowData(_lowData);
 		setHighData(_highData);
 		setMeanData(_meanData);
-		// setSelectedItems([lowData, meanData, highData]);
 	}, [rates]);
 
 	return (

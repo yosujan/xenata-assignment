@@ -15,11 +15,11 @@ background-color: #fff;
   font-size: 0.8em;
 }
 
-.form-wrapper label select{
+.form-wrapper label .select-input{
   display: block;
 }
 
-select.select-input {
+.select-input {
 margin: 5px 20px 5px 0;
 padding: 16px 20px;
 border: none;
@@ -58,9 +58,6 @@ button:disabled {
     color: #303030;
 }
 
-.graph-wrapper{
-  
-}
 
 .legendContainer {
   position: absolute;
@@ -70,4 +67,47 @@ button:disabled {
   top: 10px;
   background: #fff;
   box-shadow: -1px 3px 5px #000;
+}
+
+
+
+.inputautocomplete-wrapper {
+  position: relative;
+  padding-bottom: 20px;
+  overflow: visible;
+  z-index: 1;
+}
+
+
+.error {
+  position: absolute;
+  color: #ff0000;
+  font-size: 0.8em;
+  bottom: 5px;
+  left: 5px;
+}
+
+.inputautocomplete-wrapper ul {
+  list-style: none;
+  padding:0;
+  background:#fff;
+  border: 1px solid #ededed;
+  position:absolute;
+  width:85%;
+  box-shadow: 1px 1px 4px #aaa;
+  top: 35px;
+  left:5px;
+
+}
+
+
+.inputautocomplete-wrapper ul li{
+  padding: 3px 10px;
+  width: 100%;
+  font-weight:300;
+}
+
+.inputautocomplete-wrapper ul li.option-active, .inputautocomplete-wrapper ul li:hover{
+  font-weight:600;
+  cursor: pointer;
 }
