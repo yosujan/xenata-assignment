@@ -17,6 +17,9 @@ const Form = (props) => {
 	const [originPort, setOriginPort] = useState();
 	const [destinationPort, setDestinationPort] = useState();
 
+	const [originValue, setOriginValue] = useState(false);
+	const [destinationValue, setDestinationValue] = useState(false);
+
 	useEffect(() => {
 		if (originPort) {
 			const _origin = originPort.substr(originPort.indexOf("(") + 1, 5);
@@ -37,9 +40,6 @@ const Form = (props) => {
 			setDestinationValue(false);
 		}
 	}, [destinationPort]);
-
-	const [originValue, setOriginValue] = useState(false);
-	const [destinationValue, setDestinationValue] = useState(false);
 
 	useEffect(() => {
 		var _options = ports.map((port) => port.name + " (" + port.code + ")");

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 const InputAutocomplete = (props) => {
 	const [activeOption, setActiveOption] = useState(0);
@@ -20,6 +20,7 @@ const InputAutocomplete = (props) => {
 		setFilteredOptions(_filteredOptions);
 		setShowOptions(true);
 		setUserInput(e.currentTarget.value);
+		props.setValue(e.currentTarget.innerText);
 	};
 
 	const onOptionClick = (e) => {
@@ -27,7 +28,7 @@ const InputAutocomplete = (props) => {
 		setFilteredOptions([]);
 		setShowOptions(false);
 		setUserInput(e.currentTarget.innerText);
-		// props.setValue(e.currentTarget.innerText);
+		props.setValue(e.currentTarget.innerText);
 	};
 
 	const onKeyDown = (e) => {
@@ -36,7 +37,7 @@ const InputAutocomplete = (props) => {
 			setActiveOption(0);
 			setShowOptions(false);
 			setUserInput(filteredOptions[activeOption]);
-			// props.setValue(filteredOptions[activeOption]);
+			props.setValue(filteredOptions[activeOption]);
 		} else if (e.keyCode === 38) {
 			// UP arrrow pressed
 			if (activeOption === 0) {
@@ -46,17 +47,16 @@ const InputAutocomplete = (props) => {
 		} else if (e.keyCode === 40) {
 			// DOWN arrrow pressed
 			if (activeOption === filteredOptions.length - 1) {
-				console.log(activeOption);
 				return;
 			}
 			setActiveOption(activeOption + 1);
 		}
 	};
 
-	// update value if option updates
-	useEffect(() => {
-		props.setValue(userInput);
-	}, [userInput, props]);
+	// // update value if option updates
+	// useEffect(() => {
+	// 	props.setValue(userInput);
+	// }, [userInput, props]);
 
 	return (
 		<div className="inputautocomplete-wrapper">
