@@ -1,29 +1,44 @@
 import React, { useEffect, useState } from "react";
 import PortsService from "../services/PortsService";
+import RatesService from "../services/RatesService";
 import Form from "./form";
 import Graph from "./graph";
 
 const Visualization = () => {
 	const [ports, setPorts] = useState([]);
 	const [rates, setRates] = useState([]);
-
-	const setTheRates = (rates) => {
-		setRates(rates);
-	};
+	const [status, setStatus] = useState(false);
+	const [message, setMessage] = useState("Select origin and destination.");
 
 	useEffect(() => {
 		PortsService.get().then((response) => {
 			var allports = response;
-			console.log(allports);
 			setPorts([...allports.data]);
 		});
 	}, []);
 
-	return (
-		<div className="graph-div">
-			<Form ports={ports} setTheRates={setTheRates} />
+	const getRates = (originPort, destinationPort) => {
+		RatesService.get(originPort, destinationPort)
+			.then((response) => {
+				setRates(response.data);
+				setMessage(false);
+				setStatus(true);
+			})
+			.catch(function (error) {
+				setMessage(
+					"Sorry! No Results found for the selected origin and destination. Please try other combinations."
+				);
+				setStatus(false);
+			});
+	};
 
-			<Graph rates={rates} />
+	return (
+		<div>
+			<Form ports={ports} getRates={getRates} />
+			<div className="wrapper">
+				{message && <div className="message">{message}</div>}
+				{status && <Graph rates={rates} />}
+			</div>
 		</div>
 	);
 };

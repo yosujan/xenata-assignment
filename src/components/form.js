@@ -3,60 +3,47 @@ import RatesService from "../services/RatesService";
 
 const Form = (props) => {
 	const { ports } = props;
-	const [originPort, setOriginPort] = useState("");
-	const [destinationPort, setDestinationPort] = useState("");
-	const [rates, setRates] = useState([]);
-
-	useEffect(() => {
-		// setOriginPort(ports[0].code);
-		// setDestinationPort(ports[1].code);
-	}, [ports]);
+	const [originPort, setOriginPort] = useState(0);
+	const [destinationPort, setDestinationPort] = useState(0);
 
 	const onChangeOrigin = (e) => {
-		console.log(e.target.value);
 		setOriginPort(e.target.value);
 	};
 
 	const onChangeDestination = (e) => {
-		console.log(e.target.value);
 		setDestinationPort(e.target.value);
 	};
 
-	const onSubmit = () => {
-		console.log("Submit");
-		RatesService.get(originPort, destinationPort).then((response) => {
-			console.log(response);
-			setRates(response.data);
-			props.setTheRates(response.data);
-		});
+	const onClick = () => {
+		if (originPort && destinationPort) {
+			props.getRates(originPort, destinationPort);
+		}
 	};
 
 	return (
 		<div>
 			<select className="select-input" onChange={onChangeOrigin}>
+				<option value={0}>Select Origin</option>
 				{ports.map((port) => (
-					<option
-						value={port.code}
-						key={"from-" + port.code}
-						selected={originPort === port.code && true}
-					>
+					<option value={port.code} key={"origin-" + port.code}>
 						{port.name} ({port.code})
 					</option>
 				))}
 			</select>
 			<select className="select-input" onChange={onChangeDestination}>
+				<option value={0}>Select Destination</option>
 				{ports.map((port) => (
-					<option
-						value={port.code}
-						key={"destination-" + port.code}
-						selected={destinationPort === port.code && true}
-					>
+					<option value={port.code} key={"destination-" + port.code}>
 						{port.name} ({port.code})
 					</option>
 				))}
 			</select>
 
-			<button type="button" onClick={onSubmit}>
+			<button
+				type="button"
+				onClick={onClick}
+				disabled={originPort == 0 || destinationPort == 0}
+			>
 				Submit
 			</button>
 		</div>

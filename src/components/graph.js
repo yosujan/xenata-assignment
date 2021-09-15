@@ -1,25 +1,34 @@
 import React, { useEffect, useState } from "react";
-import LineChart from "./LineChart";
+import LineChart from "./LineChart/LineChart";
+import Legend from "./LineChart/_components/Legend";
 
 const Graph = (props) => {
 	const { rates } = props;
+	const [selectedItems, setSelectedItems] = useState(["Low", "Mean", "High"]);
 	const [lowData, setLowData] = useState({
 		name: "Low",
-		color: "#d53e4f",
+		color: "#00f",
 		items: [],
 	});
 
 	const [highData, setHighData] = useState({
 		name: "High",
-		color: "#f00",
+		color: "#d53e4f",
 		items: [],
 	});
 
 	const [meanData, setMeanData] = useState({
 		name: "Mean",
-		color: "#0f0",
+		color: "#27ae60",
 		items: [],
 	});
+
+	const legendData = [lowData, meanData, highData];
+	const chartData = [
+		...[lowData, meanData, highData].filter((d) =>
+			selectedItems.includes(d.name)
+		),
+	];
 
 	const dimensions = {
 		width: 800,
@@ -27,10 +36,16 @@ const Graph = (props) => {
 		margin: { top: 30, right: 30, bottom: 30, left: 60 },
 	};
 
+	const onChangeSelection = (name) => {
+		const newSelectedItems = selectedItems.includes(name)
+			? selectedItems.filter((item) => item !== name)
+			: [...selectedItems, name];
+		setSelectedItems(newSelectedItems);
+	};
+
 	useEffect(() => {
 		var _lowData = {
-			name: "Low",
-			color: "#0000ff",
+			...lowData,
 			items: rates.map((d) => ({
 				...d,
 				value: d.low,
@@ -39,8 +54,7 @@ const Graph = (props) => {
 		};
 
 		var _highData = {
-			name: "High",
-			color: "#ff0000",
+			...highData,
 			items: rates.map((d) => ({
 				...d,
 				value: d.high,
@@ -49,8 +63,7 @@ const Graph = (props) => {
 		};
 
 		var _meanData = {
-			name: "Mean",
-			color: "#00ff00",
+			...meanData,
 			items: rates.map((d) => ({
 				...d,
 				value: d.mean,
@@ -61,18 +74,19 @@ const Graph = (props) => {
 		setLowData(_lowData);
 		setHighData(_highData);
 		setMeanData(_meanData);
+		// setSelectedItems([lowData, meanData, highData]);
 	}, [rates]);
 
 	return (
-		<div>
-			Graph
-			<div>{JSON.stringify(rates, null, "\t")}</div>
+		<div className="graph-div">
 			{rates && (
-				<div>
-					<LineChart
-						data={[meanData, lowData, highData]}
-						dimensions={dimensions}
+				<div className="graph-wrapper">
+					<Legend
+						data={legendData}
+						selectedItems={selectedItems}
+						onChange={onChangeSelection}
 					/>
+					<LineChart data={chartData} dimensions={dimensions} />
 				</div>
 			)}
 		</div>

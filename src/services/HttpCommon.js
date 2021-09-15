@@ -7,7 +7,6 @@ export default axios.create({
 	baseURL: API_URL,
 	crossdomain: true,
 	headers: {
-		// "Content-type": "application/json",
 		"x-api-key": X_API_KEY,
 	},
 });
